@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { Employee } from '../../models/employee';
 
 @Component({
-  selector: 'app-employee-table',
-  imports: [],
+  selector: 'employee-table',
+  imports: [EmployeeTable],
   templateUrl: './employee-table.html',
   styleUrl: './employee-table.css'
 })

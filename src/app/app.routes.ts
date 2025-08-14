@@ -6,5 +6,6 @@ import { EmployeeForm } from './employee-form/employee-form'; // wanna render/sh
 export const routes: Routes = [
     {path: '', component: EmployeeTable},
     {path: 'create', component: EmployeeForm},
-    {path: 'employees', redirectTo: '', pathMatch: 'full'}
+    {path: 'edit/:id', component: EmployeeForm},
+    {path: 'employees', redirectTo: '', pathMatch: 'full'},
 ];

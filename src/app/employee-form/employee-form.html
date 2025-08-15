@@ -35,10 +35,11 @@
 
     <div class="mb-3">
         <label>Email*</label>
-        <input required #email="ngModel" class="form-control" type="email" name="email" [(ngModel)]="employee.email" />
+        <input required email #email="ngModel" class="form-control" type="email" name="email" [(ngModel)]="employee.email" />
 
         <div *ngIf="email.invalid && (email.touched || email.dirty)">
             <div class="text-danger" *ngIf="email.errors?.['required']">Email is required.</div>
+            <div class="text-danger" *ngIf="email.errors?.['email']">Email is invalid.</div>
         </div>
     </div>
 

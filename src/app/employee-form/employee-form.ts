@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Employee } from '../../models/employee';
 import { EmployeeService } from '../employee-service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -11,7 +11,7 @@ import { NgIf } from '@angular/common';
   templateUrl: './employee-form.html',
   styleUrl: './employee-form.css'
 })
-export class EmployeeForm {
+export class EmployeeForm implements OnInit{
 
   employee: Employee = {
     id: 0,
@@ -22,9 +22,32 @@ export class EmployeeForm {
     position: ''
   }
 
+  isEditing: boolean = false;
+
   errorMessage: string = "";
 
-  constructor(private employeeService: EmployeeService, private router: Router){}
+  constructor(
+    private employeeService: EmployeeService, 
+    private router: Router, // it's for navigation
+    private route: ActivatedRoute // current root (where user is located)
+  ){}
+
+  // Here we check if we have a parameter (id) for updating or not
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((result) => {
+      const id = result.get('id');
+
+      if(id){
+        // editing employee
+        this.isEditing = true;
+
+        this.employeeService.getEmployeeByID(Number(id)).subscribe({
+          next:(result) => this.employee = result,
+          error: (err) => this.errorMessage = `Error: ${err.status} - ${err.message}`
+        });
+      }
+    });
+  }
 
   onSubmit(): void{
     this.employeeService.createEmployee(this.employee)
